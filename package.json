@@ -1,0 +1,27 @@
+{
+  "name": "curso-de-nodejs",
+  "version": "1.0.0",
+  "description": "Un chat como telegram",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carloslafuente/curso-de-nodejs.git"
+  },
+  "keywords": [
+    "chat",
+    "telegram",
+    "server"
+  ],
+  "author": "Carlos La Fuente",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carloslafuente/curso-de-nodejs/issues"
+  },
+  "homepage": "https://github.com/carloslafuente/curso-de-nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
