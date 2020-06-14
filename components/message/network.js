@@ -4,10 +4,25 @@ const response = require('../../network/response');
 const controller = require('./controller');
 
 router.get('/', (req, res) => {
-  res.header({
-    'custom-header': 'Header personalizado',
-  });
-  response.success(req, res, 'Lista de mensajes');
+  const filterMessage = req.query.user || null;
+  // req.query trae los valores de la url despues del signo ?
+  // console.log(req.query);
+  // req.body trae los valores body de la peticion
+  // console.log(req.body);
+  controller
+    .getMessages(filterMessage)
+    .then((result) => {
+      response.success(req, res, result, 200);
+    })
+    .catch((err) => {
+      response.error(
+        req,
+        res,
+        'No se pudieron obtener los mensajes',
+        400,
+        'Error en el controlador'
+      );
+    });
 });
 
 router.post('/', (req, res) => {
@@ -25,6 +40,30 @@ router.post('/', (req, res) => {
         400,
         'Error en el controlador'
       );
+    });
+});
+
+router.patch('/:id', (req, res) => {
+  // Trae el id de la ruta que se esta solicitando
+  // console.log(req.params);
+  controller
+    .updateMessage(req.params.id, req.body.message)
+    .then((result) => {
+      response.success(req, res, result, 202);
+    })
+    .catch((err) => {
+      response.error(req, res, 'Error interno', 300, err);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  controller
+    .deleteMessage(req.params.id)
+    .then((result) => {
+      response.success(req, res, `Mensaje ${req.params.id} eliminado`, 200);
+    })
+    .catch((err) => {
+      response.error(req, res, 'Error interno', 300, err);
     });
 });
 
