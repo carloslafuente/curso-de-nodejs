@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const mySchema = new Schema({
   chat: {
     type: Schema.ObjectId,
-    ref: 'chats'
+    ref: 'chats',
   },
   user: {
     type: Schema.ObjectId,
@@ -15,6 +15,7 @@ const mySchema = new Schema({
     required: true,
   },
   date: Date,
+  file: String,
 });
 
 const model = mongoose.model('messages', mySchema);
