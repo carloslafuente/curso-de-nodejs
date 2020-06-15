@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
       response.success(req, res, result, 201);
     })
     .catch((err) => {
-      response.error(req, res, 'No se agregar el usuario', 400, err);
+      response.error(req, res, 'No se pudo agregar el usuario', 400, err);
     });
 });
 

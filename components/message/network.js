@@ -4,31 +4,21 @@ const response = require('../../network/response');
 const controller = require('./controller');
 
 router.get('/', (req, res) => {
-  const filterMessage = req.query.user || null;
-  // req.query trae los valores de la url despues del signo ?
-  // console.log(req.query);
-  // req.body trae los valores body de la peticion
-  // console.log(req.body);
+  const filterMessage = req.query.chat || null;
   controller
     .getMessages(filterMessage)
     .then((result) => {
       response.success(req, res, result, 200);
     })
     .catch((err) => {
-      response.error(
-        req,
-        res,
-        'No se pudieron obtener los mensajes',
-        400,
-        'Error en el controlador'
-      );
+      response.error(req, res, 'No se pudieron obtener los mensajes', 500, err);
     });
 });
 
 router.post('/', (req, res) => {
   body = req.body;
   controller
-    .addMessage(body.user, body.message)
+    .addMessage(body.chat, body.user, body.message)
     .then((result) => {
       response.success(req, res, result, 201);
     })
@@ -37,15 +27,13 @@ router.post('/', (req, res) => {
         req,
         res,
         'Informacion invalida',
-        400,
+        500,
         'Error en el controlador'
       );
     });
 });
 
 router.patch('/:id', (req, res) => {
-  // Trae el id de la ruta que se esta solicitando
-  // console.log(req.params);
   controller
     .updateMessage(req.params.id, req.body.message)
     .then((result) => {
