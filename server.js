@@ -6,12 +6,11 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const socket = require('./socket');
 
-require('dotenv').config();
 const db = require('./bd');
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-db(uri);
-
+const config = require('./config');
 const router = require('./network/routes');
+
+db(config.uri);
 
 app.use(cors());
 
@@ -22,8 +21,10 @@ socket.connect(server);
 
 router(app);
 
-app.use('/app', express.static('public'));
+app.use(config.publicRoute, express.static('public'));
 
-server.listen(3000, () => {
-	console.log('La aplicacion esta escuchando en el puerto 3000');
+server.listen(config.port, () => {
+	console.log(
+		`La aplicacion esta escuchando en: ${config.host}:${config.port}`
+	);
 });
