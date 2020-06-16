@@ -5,15 +5,15 @@ const io = require('socket.io')(server);
 
 app.use(express.static('public'));
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
 	console.log('Nuevo cliente conectado');
 	socket.emit('mensaje', 'Bienvenido');
 });
 
-setInterval(function () {
+setInterval(() => {
 	io.emit('mensaje', 'Hola, les escribo a todos');
 }, 3000);
 
-server.listen(8080, function () {
+server.listen(8080, () => {
 	console.log('Servidor iniciado en http://localhost:8080');
 });
