@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const mySchema = new Schema({
+const messageSchema = new Schema({
   chat: {
     type: Schema.ObjectId,
-    ref: 'chats',
+    ref: 'Chat',
   },
   user: {
     type: Schema.ObjectId,
-    ref: 'users',
+    ref: 'User',
   },
   message: {
     type: String,
@@ -18,5 +18,5 @@ const mySchema = new Schema({
   file: String,
 });
 
-const model = mongoose.model('messages', mySchema);
+const model = mongoose.model('Message', messageSchema);
 module.exports = model;
