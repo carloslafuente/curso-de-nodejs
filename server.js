@@ -1,27 +1,30 @@
 const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+
+const cors = require('cors');
 const bodyParser = require('body-parser');
-
-require('dotenv').config();
-const DB_USER = process.env.DB_USER;
-const DB_PASSWORD = process.env.DB_PASSWORD;
-const DB_HOST = process.env.DB_HOST;
-const DB_NAME = process.env.DB_NAME;
-
-let uri = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+const socket = require('./socket');
 
 const db = require('./bd');
-
+const config = require('./config');
 const router = require('./network/routes');
 
-db(uri);
-const app = express();
+db(config.uri);
+
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extend: false }));
 
+socket.connect(server);
+
 router(app);
 
-app.use('/app', express.static('public'));
+app.use(config.publicRoute, express.static('public'));
 
-app.listen(3000);
-console.log('La aplicacion esta escuchando en el puerto 3000');
+server.listen(config.port, () => {
+	console.log(
+		`La aplicacion esta escuchando en: ${config.host}:${config.port}`
+	);
+});
